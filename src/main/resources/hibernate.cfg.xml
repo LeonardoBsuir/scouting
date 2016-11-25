@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/scouting</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <mapping class="bsuir.scouting.domain.Comment"/>
+        <mapping class="bsuir.scouting.domain.Player"/>
+        <mapping class="bsuir.scouting.domain.Role"/>
+        <mapping class="bsuir.scouting.domain.Skills"/>
+        <mapping class="bsuir.scouting.domain.Team"/>
+        <mapping class="bsuir.scouting.domain.User"/>
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>
