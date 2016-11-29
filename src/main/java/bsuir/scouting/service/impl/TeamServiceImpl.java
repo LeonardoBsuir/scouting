@@ -1,6 +1,6 @@
 package bsuir.scouting.service.impl;
 
-import bsuir.scouting.domain.Team;
+import bsuir.scouting.model.domain.Team;
 import bsuir.scouting.repository.TeamRepository;
 import bsuir.scouting.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,17 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
-    TeamRepository teamRepository;
+    private TeamRepository teamRepository;
 
     @Override
-    public void delete(Team entity) {
-        teamRepository.delete(entity);
+    public void delete(Long id) {
+        Team team = teamRepository.findOne(id);
+        teamRepository.delete(team);
     }
 
     @Override
     public List<Team> findAll() {
-        return teamRepository.findAll();
+        return (List<Team>) teamRepository.findAll();
     }
 
     @Override
@@ -32,5 +33,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team save(Team entity) {
         return teamRepository.save(entity);
+    }
+
+
+    @Override
+    public Team findByCountry(String country) {
+        return teamRepository.findByCountryOrderByNameAsc(country);
     }
 }

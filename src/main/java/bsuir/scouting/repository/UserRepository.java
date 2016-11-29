@@ -1,7 +1,7 @@
 package bsuir.scouting.repository;
 
 
-import bsuir.scouting.domain.User;
+import bsuir.scouting.model.domain.User;
 
 
 public interface UserRepository extends BaseRepository<User, Long> {

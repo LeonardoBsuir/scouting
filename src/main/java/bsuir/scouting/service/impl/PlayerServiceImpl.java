@@ -1,6 +1,6 @@
 package bsuir.scouting.service.impl;
 
-import bsuir.scouting.domain.Player;
+import bsuir.scouting.model.domain.Player;
 import bsuir.scouting.repository.PlayerRepository;
 import bsuir.scouting.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,17 @@ import java.util.List;
 public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
-    PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;
 
     @Override
-    public void delete(Player entity) {
-        playerRepository.delete(entity);
+    public void delete(Long id) {
+        Player player = playerRepository.findOne(id);
+        playerRepository.delete(player);
     }
 
     @Override
     public List<Player> findAll() {
-        return playerRepository.findAll();
+        return (List<Player>)playerRepository.findAll();
     }
 
     @Override
@@ -33,4 +34,5 @@ public class PlayerServiceImpl implements PlayerService {
     public Player save(Player entity) {
         return playerRepository.save(entity);
     }
+
 }

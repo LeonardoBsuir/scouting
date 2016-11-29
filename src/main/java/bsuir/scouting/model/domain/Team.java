@@ -1,5 +1,6 @@
-package bsuir.scouting.domain;
+package bsuir.scouting.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,7 +13,6 @@ import java.util.Set;
 public class Team implements Serializable {
     private long teamId;
     private String name;
-    private Long skillsId;
     private Set<Player> playersByTeamId = new HashSet<>(0);
     private Skills skillsBySkillsId;
     private Set<User> usersByTeamId = new HashSet<>(0);
@@ -41,15 +41,6 @@ public class Team implements Serializable {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "skills_id", nullable = true, insertable = true, updatable = true)
-    public Long getSkillsId() {
-        return skillsId;
-    }
-
-    public void setSkillsId(Long skillsId) {
-        this.skillsId = skillsId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,7 +51,6 @@ public class Team implements Serializable {
 
         if (teamId != team.teamId) return false;
         if (name != null ? !name.equals(team.name) : team.name != null) return false;
-        if (skillsId != null ? !skillsId.equals(team.skillsId) : team.skillsId != null) return false;
 
         return true;
     }
@@ -69,11 +59,11 @@ public class Team implements Serializable {
     public int hashCode() {
         int result = (int) (teamId ^ (teamId >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (skillsId != null ? skillsId.hashCode() : 0);
         return result;
     }
 
     @OneToMany(mappedBy = "teamByTeamId")
+    @JsonIgnore
     public Set<Player> getPlayersByTeamId() {
         return playersByTeamId;
     }
@@ -82,7 +72,7 @@ public class Team implements Serializable {
         this.playersByTeamId = playersByTeamId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skills_id", referencedColumnName = "skills_id")
     public Skills getSkillsBySkillsId() {
         return skillsBySkillsId;
@@ -93,6 +83,7 @@ public class Team implements Serializable {
     }
 
     @OneToMany(mappedBy = "teamByTeamId")
+    @JsonIgnore
     public Set<User> getUsersByTeamId() {
         return usersByTeamId;
     }

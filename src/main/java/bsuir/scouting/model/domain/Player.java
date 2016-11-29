@@ -1,5 +1,6 @@
-package bsuir.scouting.domain;
+package bsuir.scouting.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,8 +17,6 @@ public class Player implements Serializable {
     private String lastName;
     private String position;
     private Timestamp birthdate;
-    private Long teamId;
-    private Long skillsId;
     private Set<Comment> commentsByPlayerId = new HashSet<>(0);
     private Skills skillsBySkillsId;
     private Team teamByTeamId;
@@ -81,25 +80,6 @@ public class Player implements Serializable {
         this.birthdate = birthdate;
     }
 
-    @Basic
-    @Column(name = "team_id", nullable = true, insertable = true, updatable = true)
-    public Long getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
-    }
-
-    @Basic
-    @Column(name = "skills_id", nullable = true, insertable = true, updatable = true)
-    public Long getSkillsId() {
-        return skillsId;
-    }
-
-    public void setSkillsId(Long skillsId) {
-        this.skillsId = skillsId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -113,9 +93,6 @@ public class Player implements Serializable {
         if (lastName != null ? !lastName.equals(player.lastName) : player.lastName != null) return false;
         if (position != null ? !position.equals(player.position) : player.position != null) return false;
         if (birthdate != null ? !birthdate.equals(player.birthdate) : player.birthdate != null) return false;
-        if (teamId != null ? !teamId.equals(player.teamId) : player.teamId != null) return false;
-        if (skillsId != null ? !skillsId.equals(player.skillsId) : player.skillsId != null) return false;
-
         return true;
     }
 
@@ -126,12 +103,10 @@ public class Player implements Serializable {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (birthdate != null ? birthdate.hashCode() : 0);
-        result = 31 * result + (teamId != null ? teamId.hashCode() : 0);
-        result = 31 * result + (skillsId != null ? skillsId.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "playerByPlayerId")
+    @OneToMany(mappedBy = "playerByPlayerId", fetch = FetchType.EAGER)
     public Set<Comment> getCommentsByPlayerId() {
         return commentsByPlayerId;
     }
@@ -140,7 +115,7 @@ public class Player implements Serializable {
         this.commentsByPlayerId = commentsByPlayerId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skills_id", referencedColumnName = "skills_id")
     public Skills getSkillsBySkillsId() {
         return skillsBySkillsId;
@@ -150,7 +125,7 @@ public class Player implements Serializable {
         this.skillsBySkillsId = skillsBySkillsId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     public Team getTeamByTeamId() {
         return teamByTeamId;
@@ -160,7 +135,8 @@ public class Player implements Serializable {
         this.teamByTeamId = teamByTeamId;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinTable(name = "user_player", catalog = "scouting",
             joinColumns = {@JoinColumn(name = "player_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)})

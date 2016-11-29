@@ -1,7 +1,7 @@
 package bsuir.scouting.service.impl;
 
 
-import bsuir.scouting.domain.Skills;
+import bsuir.scouting.model.domain.Skills;
 import bsuir.scouting.repository.SkillsRepository;
 import bsuir.scouting.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +13,17 @@ import java.util.List;
 public class SkillsServiceImpl implements SkillsService {
 
     @Autowired
-    SkillsRepository skillsRepository;
+    private SkillsRepository skillsRepository;
 
     @Override
-    public void delete(Skills entity) {
-        skillsRepository.delete(entity);
+    public void delete(Long id) {
+        Skills skills = skillsRepository.findOne(id);
+        skillsRepository.delete(skills);
     }
 
     @Override
     public List<Skills> findAll() {
-        return skillsRepository.findAll();
+        return (List<Skills>) skillsRepository.findAll();
     }
 
     @Override
@@ -34,4 +35,6 @@ public class SkillsServiceImpl implements SkillsService {
     public Skills save(Skills entity) {
         return skillsRepository.save(entity);
     }
+
+
 }

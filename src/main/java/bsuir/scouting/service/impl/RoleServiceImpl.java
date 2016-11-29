@@ -1,6 +1,6 @@
 package bsuir.scouting.service.impl;
 
-import bsuir.scouting.domain.Role;
+import bsuir.scouting.model.domain.Role;
 import bsuir.scouting.repository.RoleRepository;
 import bsuir.scouting.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,17 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Override
-    public void delete(Role entity) {
-        roleRepository.delete(entity);
+    public void delete(Long id) {
+        Role role = roleRepository.findOne(id);
+        roleRepository.delete(role);
     }
 
     @Override
     public List<Role> findAll() {
-        return roleRepository.findAll();
+        return (List<Role>) roleRepository.findAll();
     }
 
     @Override
@@ -33,4 +34,5 @@ public class RoleServiceImpl implements RoleService {
     public Role save(Role entity) {
         return roleRepository.save(entity);
     }
+
 }

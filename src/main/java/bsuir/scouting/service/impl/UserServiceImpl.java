@@ -1,6 +1,6 @@
 package bsuir.scouting.service.impl;
 
-import bsuir.scouting.domain.User;
+import bsuir.scouting.model.domain.User;
 import bsuir.scouting.repository.UserRepository;
 import bsuir.scouting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,17 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
-    public void delete(User entity) {
-        userRepository.delete(entity);
+    public void delete(Long id) {
+        User user = userRepository.findOne(id);
+        userRepository.delete(user);
     }
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+        return (List<User>) userRepository.findAll();
     }
 
     @Override
@@ -33,4 +34,5 @@ public class UserServiceImpl implements UserService {
     public User save(User entity) {
         return userRepository.save(entity);
     }
+
 }

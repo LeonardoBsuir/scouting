@@ -1,5 +1,6 @@
-package bsuir.scouting.domain;
+package bsuir.scouting.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,8 +16,6 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String mail;
-    private Long teamId;
-    private Long roleId;
     private Set<Comment> commentsByUserId = new HashSet<>(0);
     private Role roleByRoleId;
     private Team teamByTeamId;
@@ -75,25 +74,6 @@ public class User implements Serializable {
         this.mail = mail;
     }
 
-    @Basic
-    @Column(name = "team_id", nullable = true, insertable = true, updatable = true)
-    public Long getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
-    }
-
-    @Basic
-    @Column(name = "role_id", nullable = true, insertable = true, updatable = true)
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -107,8 +87,6 @@ public class User implements Serializable {
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (mail != null ? !mail.equals(user.mail) : user.mail != null) return false;
-        if (teamId != null ? !teamId.equals(user.teamId) : user.teamId != null) return false;
-        if (roleId != null ? !roleId.equals(user.roleId) : user.roleId != null) return false;
 
         return true;
     }
@@ -120,12 +98,11 @@ public class User implements Serializable {
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (mail != null ? mail.hashCode() : 0);
-        result = 31 * result + (teamId != null ? teamId.hashCode() : 0);
-        result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
     }
 
     @OneToMany(mappedBy = "userByUserId")
+    @JsonIgnore
     public Set<Comment> getCommentsByUserId() {
         return commentsByUserId;
     }
@@ -134,7 +111,7 @@ public class User implements Serializable {
         this.commentsByUserId = commentsByUserId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     public Role getRoleByRoleId() {
         return roleByRoleId;
@@ -144,7 +121,7 @@ public class User implements Serializable {
         this.roleByRoleId = roleByRoleId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     public Team getTeamByTeamId() {
         return teamByTeamId;
@@ -154,7 +131,7 @@ public class User implements Serializable {
         this.teamByTeamId = teamByTeamId;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     public Set<Player> getUserPlayersByUserId() {
         return players;
     }

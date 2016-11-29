@@ -4,16 +4,19 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
 import java.io.Serializable;
-import java.util.List;
 
 @NoRepositoryBean
 interface BaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
 
-    void delete(T deleted);
+    <S extends T> S save(S entity);
 
-    List<T> findAll();
+    T findOne(ID primaryKey);
 
-    T findOne(ID id);
+    Iterable<T> findAll();
 
-    T save(T persisted);
+    Long count();
+
+    void delete(T entity);
+
+    boolean exists(ID primaryKey);
 }

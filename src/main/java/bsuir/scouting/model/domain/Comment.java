@@ -1,5 +1,6 @@
-package bsuir.scouting.domain;
+package bsuir.scouting.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,8 +11,6 @@ import java.io.Serializable;
 public class Comment implements Serializable {
     private long commentId;
     private String text;
-    private Long playerId;
-    private Long userId;
     private Player playerByPlayerId;
     private User userByUserId;
 
@@ -37,25 +36,6 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    @Basic
-    @Column(name = "player_id", nullable = true, insertable = true, updatable = true)
-    public Long getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(Long playerId) {
-        this.playerId = playerId;
-    }
-
-    @Basic
-    @Column(name = "user_id", nullable = true, insertable = true, updatable = true)
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -66,9 +46,6 @@ public class Comment implements Serializable {
 
         if (commentId != comment.commentId) return false;
         if (text != null ? !text.equals(comment.text) : comment.text != null) return false;
-        if (playerId != null ? !playerId.equals(comment.playerId) : comment.playerId != null) return false;
-        if (userId != null ? !userId.equals(comment.userId) : comment.userId != null) return false;
-
         return true;
     }
 
@@ -76,12 +53,11 @@ public class Comment implements Serializable {
     public int hashCode() {
         int result = (int) (commentId ^ (commentId >>> 32));
         result = 31 * result + (text != null ? text.hashCode() : 0);
-        result = 31 * result + (playerId != null ? playerId.hashCode() : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         return result;
     }
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "player_id", referencedColumnName = "player_id")
     public Player getPlayerByPlayerId() {
         return playerByPlayerId;
@@ -91,7 +67,7 @@ public class Comment implements Serializable {
         this.playerByPlayerId = playerByPlayerId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     public User getUserByUserId() {
         return userByUserId;

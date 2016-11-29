@@ -1,5 +1,6 @@
-package bsuir.scouting.domain;
+package bsuir.scouting.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -56,6 +57,7 @@ public class Role implements Serializable {
     }
 
     @OneToMany(mappedBy = "roleByRoleId")
+    @JsonIgnore
     public Set<User> getUsersByRoleId() {
         return usersByRoleId;
     }

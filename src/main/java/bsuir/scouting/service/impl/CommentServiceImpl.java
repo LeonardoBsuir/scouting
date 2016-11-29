@@ -1,6 +1,7 @@
 package bsuir.scouting.service.impl;
 
-import bsuir.scouting.domain.Comment;
+import bsuir.scouting.model.domain.Comment;
+import bsuir.scouting.model.domain.Player;
 import bsuir.scouting.repository.CommentRepository;
 import bsuir.scouting.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +15,17 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Override
-    public void delete(Comment entity) {
-        commentRepository.delete(entity);
+    public void delete(Long id) {
+        Comment comment = commentRepository.findOne(id);
+        commentRepository.delete(comment);
     }
 
     @Override
     public List<Comment> findAll() {
-        return commentRepository.findAll();
+        return (List<Comment>) commentRepository.findAll();
     }
 
     @Override
@@ -34,5 +36,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment save(Comment entity) {
         return commentRepository.save(entity);
+    }
+
+
+    @Override
+    public List<Comment> findAllCommentsByPlayer(Player player) {
+        return commentRepository.findByPlayerByPlayerIdOrderByCommentIdDesc(player);
     }
 }
