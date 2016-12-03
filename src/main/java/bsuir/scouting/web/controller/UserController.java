@@ -18,8 +18,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> findAll() {
-        return userService.findAll();
+    public List<User> findAll(@RequestParam(value = "teamId", required = false) Long teamId) {
+        return userService.findAll(teamId);
     }
 
     @GetMapping("/{id}")

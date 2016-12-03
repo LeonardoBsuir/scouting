@@ -26,6 +26,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAll(Long teamId) {
+        List<User> users;
+        if (teamId != null) {
+            users = userRepository.findByTeamByTeamId_TeamId(teamId);
+        } else users = findAll();
+        return users;
+    }
+
+    @Override
     public User findOne(Long id) {
         return userRepository.findOne(id);
     }
