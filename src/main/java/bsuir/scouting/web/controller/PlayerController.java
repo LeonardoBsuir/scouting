@@ -14,13 +14,13 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/players")
 public class PlayerController {
-    
+
     @Autowired
     private PlayerService playerService;
 
     @GetMapping
-    public List<Player> findAll() {
-        return playerService.findAll();
+    public List<Player> findAll(@RequestParam(value = "teamId", required = false) Long teamId) {
+        return playerService.findAll(teamId);
     }
 
     @GetMapping("/{id}")

@@ -22,7 +22,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<Player> findAll() {
-        return (List<Player>)playerRepository.findAll();
+        return (List<Player>) playerRepository.findAll();
     }
 
     @Override
@@ -35,4 +35,12 @@ public class PlayerServiceImpl implements PlayerService {
         return playerRepository.save(entity);
     }
 
+    @Override
+    public List<Player> findAll(Long teamId) {
+        List<Player> players;
+        if (teamId != null) {
+            players = playerRepository.findByTeamByTeamId_TeamId(teamId);
+        } else players = findAll();
+        return players;
+    }
 }
