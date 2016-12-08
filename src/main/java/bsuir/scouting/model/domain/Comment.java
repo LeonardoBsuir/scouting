@@ -76,4 +76,14 @@ public class Comment implements Serializable {
     public void setUserByUserId(User userByUserId) {
         this.userByUserId = userByUserId;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", text='" + text + '\'' +
+                ", playerByPlayerId=" + playerByPlayerId +
+                ", userByUserId=" + userByUserId +
+                '}';
+    }
 }

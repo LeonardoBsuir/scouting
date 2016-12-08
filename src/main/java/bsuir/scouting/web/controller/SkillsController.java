@@ -36,7 +36,7 @@ public class SkillsController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNews(@PathVariable Long id) {
+    public void deleteSkills(@PathVariable Long id) {
         skillsService.delete(id);
     }
 

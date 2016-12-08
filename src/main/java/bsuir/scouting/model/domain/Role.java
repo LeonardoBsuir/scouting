@@ -65,4 +65,13 @@ public class Role implements Serializable {
     public void setUsersByRoleId(Set<User> usersByRoleId) {
         this.usersByRoleId = usersByRoleId;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "roleId=" + roleId +
+                ", type='" + type + '\'' +
+                ", usersByRoleId=" + usersByRoleId +
+                '}';
+    }
 }

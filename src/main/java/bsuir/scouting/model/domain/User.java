@@ -149,4 +149,20 @@ public class User implements Serializable {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                ", commentsByUserId=" + commentsByUserId +
+                ", roleByRoleId=" + roleByRoleId +
+                ", teamByTeamId=" + teamByTeamId +
+                ", players=" + players +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
 }

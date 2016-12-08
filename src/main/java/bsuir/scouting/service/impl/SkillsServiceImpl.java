@@ -6,10 +6,12 @@ import bsuir.scouting.repository.SkillsRepository;
 import bsuir.scouting.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class SkillsServiceImpl implements SkillsService {
 
     @Autowired

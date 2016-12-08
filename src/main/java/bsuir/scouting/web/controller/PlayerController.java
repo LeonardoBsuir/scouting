@@ -37,7 +37,7 @@ public class PlayerController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNews(@PathVariable Long id) {
+    public void deletePlayer(@PathVariable Long id) {
         playerService.delete(id);
     }
 }

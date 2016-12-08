@@ -19,4 +19,6 @@ interface BaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
     void delete(T entity);
 
     boolean exists(ID primaryKey);
+
+
 }

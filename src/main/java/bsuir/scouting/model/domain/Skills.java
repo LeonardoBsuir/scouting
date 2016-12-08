@@ -155,4 +155,20 @@ public class Skills implements Serializable {
     public void setTeamsBySkillsId(Set<Team> teamsBySkillsId) {
         this.teamsBySkillsId = teamsBySkillsId;
     }
+
+    @Override
+    public String toString() {
+        return "Skills{" +
+                "skillsId=" + skillsId +
+                ", shooting=" + shooting +
+                ", passing=" + passing +
+                ", dribbling=" + dribbling +
+                ", defence=" + defence +
+                ", speed=" + speed +
+                ", energy=" + energy +
+                ", stamina=" + stamina +
+                ", playersBySkillsId=" + playersBySkillsId +
+                ", teamsBySkillsId=" + teamsBySkillsId +
+                '}';
+    }
 }

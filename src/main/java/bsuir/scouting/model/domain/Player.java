@@ -207,4 +207,25 @@ public class Player implements Serializable {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerId=" + playerId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", position='" + position + '\'' +
+                ", birthdate=" + birthdate +
+                ", commentsByPlayerId=" + commentsByPlayerId +
+                ", skillsBySkillsId=" + skillsBySkillsId +
+                ", teamByTeamId=" + teamByTeamId +
+                ", users=" + users +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", salary=" + salary +
+                ", cost=" + cost +
+                ", foot='" + foot + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
 }

@@ -31,12 +31,13 @@ public class TeamController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Team save(@RequestBody @Valid Team team) {
+
         return teamService.save(team);
     }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNews(@PathVariable Long id) {
+    public void deleteTeam(@PathVariable Long id) {
         teamService.delete(id);
     }
 }
