@@ -106,7 +106,8 @@ public class Player implements Serializable {
         return result;
     }
 
-    @OneToMany(mappedBy = "playerByPlayerId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "playerByPlayerId")
+    @JsonIgnore
     public Set<Comment> getCommentsByPlayerId() {
         return commentsByPlayerId;
     }
@@ -135,11 +136,8 @@ public class Player implements Serializable {
         this.teamByTeamId = teamByTeamId;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "players")
     @JsonIgnore
-    @JoinTable(name = "user_player", catalog = "scouting",
-            joinColumns = {@JoinColumn(name = "player_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)})
     public Set<User> getUsers() {
         return users;
     }

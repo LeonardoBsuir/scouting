@@ -3,6 +3,7 @@ package bsuir.scouting.web.controller;
 
 import bsuir.scouting.model.domain.Player;
 import bsuir.scouting.service.PlayerService;
+import bsuir.scouting.service.SkillsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class PlayerController {
 
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private SkillsService skillsService;
 
     @GetMapping
     public List<Player> findAll(@RequestParam(value = "teamId", required = false) Long teamId) {
@@ -33,6 +37,13 @@ public class PlayerController {
     @ResponseStatus(HttpStatus.CREATED)
     public Player save(@RequestBody @Valid Player player) {
         return playerService.save(player);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Player update(@RequestBody @Valid Player player, @PathVariable Long id) {
+        skillsService.update(player.getSkillsBySkillsId());
+        return playerService.updatePlayer(player, id);
     }
 
     @DeleteMapping(value = "/{id}")

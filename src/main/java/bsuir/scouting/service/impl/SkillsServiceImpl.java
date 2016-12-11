@@ -39,4 +39,9 @@ public class SkillsServiceImpl implements SkillsService {
     }
 
 
+    @Override
+    public Skills update(Skills skills) {
+        skillsRepository.updateSkills(skills.getShooting(), skills.getPassing(), skills.getDribbling(), skills.getDefence(), skills.getSpeed(), skills.getEnergy(), skills.getStamina(), skills.getSkillsId());
+        return skills;
+    }
 }

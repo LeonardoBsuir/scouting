@@ -1,6 +1,5 @@
 package bsuir.scouting.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -56,8 +55,7 @@ public class Comment implements Serializable {
         return result;
     }
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id", referencedColumnName = "player_id")
     public Player getPlayerByPlayerId() {
         return playerByPlayerId;
@@ -67,7 +65,7 @@ public class Comment implements Serializable {
         this.playerByPlayerId = playerByPlayerId;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     public User getUserByUserId() {
         return userByUserId;

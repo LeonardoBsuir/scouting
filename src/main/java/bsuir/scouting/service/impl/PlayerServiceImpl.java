@@ -24,8 +24,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void delete(Long id) {
-        Player player = playerRepository.findOne(id);
-        recalculateTeamSkills(player, false);
+        Player player = findOne(id);
         playerRepository.delete(player);
         skillsRepository.delete(player.getSkillsBySkillsId());
     }
@@ -42,10 +41,9 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player save(Player entity) {
-        if (entity.getSkillsBySkillsId().getSkillsId() == 0L) {
+        if (entity.getSkillsBySkillsId().getSkillsId() == DEFAULT_VALUE) {
             skillsRepository.save(entity.getSkillsBySkillsId());
         }
-        recalculateTeamSkills(entity, true);
         return playerRepository.save(entity);
     }
 
@@ -58,41 +56,18 @@ public class PlayerServiceImpl implements PlayerService {
         return players;
     }
 
+    @Override
+    public Player updatePlayer(Player player, Long id) {
+        if (player.getSkillsBySkillsId().getSkillsId() == DEFAULT_VALUE) {
+            skillsRepository.save(player.getSkillsBySkillsId());
+        }
+        return updatePlayerFromPlayer(player);
+    }
 
-    private void recalculateTeamSkills(Player player, boolean isInclude) {
-        Long teamId = player.getTeamByTeamId().getTeamId();
-        List<Player> players = findAll(teamId);
-        if (isInclude) {
-            players.add(player);
-        } else {
-            players.remove(player);
-        }
-        Long teamSkillsId = player.getTeamByTeamId().getSkillsBySkillsId().getSkillsId();
-        Long shooting = DEFAULT_VALUE;
-        Long passing = DEFAULT_VALUE;
-        Long dribbling = DEFAULT_VALUE;
-        Long defence = DEFAULT_VALUE;
-        Long speed = DEFAULT_VALUE;
-        Long energy = DEFAULT_VALUE;
-        Long stamina = DEFAULT_VALUE;
-        for (Player player1 : players) {
-            shooting += player1.getSkillsBySkillsId().getShooting();
-            passing += player1.getSkillsBySkillsId().getPassing();
-            dribbling += player1.getSkillsBySkillsId().getDribbling();
-            defence += player1.getSkillsBySkillsId().getDefence();
-            speed += player1.getSkillsBySkillsId().getSpeed();
-            energy += player1.getSkillsBySkillsId().getEnergy();
-            stamina += player1.getSkillsBySkillsId().getStamina();
-        }
-        Integer playersCount = players.size();
-        shooting = shooting / playersCount;
-        passing = passing / playersCount;
-        dribbling = dribbling / playersCount;
-        defence = defence / playersCount;
-        speed = speed / playersCount;
-        energy = energy / playersCount;
-        stamina = stamina / playersCount;
-        skillsRepository.updateSkills(shooting, passing, dribbling, defence, speed, energy, stamina, teamSkillsId);
+
+    private Player updatePlayerFromPlayer(Player player) {
+        playerRepository.updatePlayer(player.getFirstName(), player.getLastName(), player.getPosition(), player.getPhoto(), player.getBirthdate(), player.getWeight(), player.getHeight(), player.getSalary(), player.getCost(), player.getTeamByTeamId(), player.getFoot(), player.getPlayerId());
+        return player;
     }
 
 }

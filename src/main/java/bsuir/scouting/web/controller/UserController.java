@@ -34,6 +34,25 @@ public class UserController {
         return userService.save(user);
     }
 
+    @PostMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addPlayerToUser(@RequestBody @Valid User user, @PathVariable Long id) {
+        userService.addPlayerToUser(id, user.getUserId());
+        List<User> users = userService.findAll(user.getTeamByTeamId().getTeamId());
+        for (User coach : users) {
+            if (coach.getRoleByRoleId().getType().equals("coach")) {
+                userService.addPlayerToUser(id, coach.getUserId());
+            }
+        }
+
+    }
+
+    @DeleteMapping(value = "/{id}/{playerId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void delPlayerToUser(@PathVariable Long id, @PathVariable Long playerId) {
+        userService.delPlayerToUser(playerId, id);
+    }
+
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {

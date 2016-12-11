@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/players/{playerId}/comments")
+@RequestMapping("/comments")
 public class CommentController {
 
     @Autowired
@@ -22,13 +22,13 @@ public class CommentController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping
+    @GetMapping("/{playerId}")
     public List<Comment> findAll(@PathVariable Long playerId) {
         Player player = playerService.findOne(playerId);
         return commentService.findAllCommentsByPlayer(player);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{playerId}/{id}")
     public Comment findOne(@PathVariable Long id) {
         return commentService.findOne(id);
     }
@@ -40,7 +40,7 @@ public class CommentController {
         return commentService.save(comment);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/{playerId}/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteComment(@PathVariable Long id) {
         commentService.delete(id);

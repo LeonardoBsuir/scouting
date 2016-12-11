@@ -1,6 +1,8 @@
 package bsuir.scouting.service.impl;
 
+import bsuir.scouting.model.domain.Player;
 import bsuir.scouting.model.domain.User;
+import bsuir.scouting.repository.PlayerRepository;
 import bsuir.scouting.repository.UserRepository;
 import bsuir.scouting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
 
     @Override
     public void delete(Long id) {
@@ -34,6 +39,26 @@ public class UserServiceImpl implements UserService {
             users = userRepository.findByTeamByTeamId_TeamId(teamId);
         } else users = findAll();
         return users;
+    }
+
+    @Override
+    public void addPlayerToUser(Long playerId, Long userId) {
+        Player player = playerRepository.findOne(playerId);
+        User user = userRepository.findOne(userId);
+        user.getPlayers().add(player);
+        player.getUsers().add(user);
+        userRepository.save(user);
+        playerRepository.save(player);
+    }
+
+    @Override
+    public void delPlayerToUser(Long playerId, Long userId) {
+        Player player = playerRepository.findOne(playerId);
+        User user = userRepository.findOne(userId);
+        user.getPlayers().remove(player);
+        player.getUsers().remove(user);
+        userRepository.save(user);
+        playerRepository.save(player);
     }
 
     @Override

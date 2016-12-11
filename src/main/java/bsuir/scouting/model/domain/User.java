@@ -131,14 +131,18 @@ public class User implements Serializable {
         this.teamByTeamId = teamByTeamId;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
-    public Set<Player> getUserPlayersByUserId() {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_player", catalog = "scouting",
+            joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "player_id", nullable = false, updatable = false)})
+    public Set<Player> getPlayers() {
         return players;
     }
 
-    public void setUserPlayersByUserId(Set<Player> players) {
+    public void setPlayers(Set<Player> players) {
         this.players = players;
     }
+
 
     @Basic
     @Column(name = "photo", nullable = true, insertable = true, updatable = true, length = 255)
