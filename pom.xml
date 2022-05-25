@@ -18,7 +18,7 @@
         <jackson.version>2.7.3</jackson.version>
         <javax.valiadtion.version>1.1.0.Final</javax.valiadtion.version>
         <woodstox.version>4.4.1</woodstox.version>
-        <spring.version>4.3.2.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
     </properties>
 
